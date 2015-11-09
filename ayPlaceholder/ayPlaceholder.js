@@ -47,28 +47,21 @@ angular.module("ayPlaceholder", [])
         context.fillRect(0, 0, width, height);      
         context.fillStyle = textColor;
         
-        context.font = height/8 + "px monospace";
+        var fontpx = 24;
+        if (fontpx > height) fontpx = height - 1;
+        if (fontpx > width) fontpx = width - 1;
+        context.font = fontpx + "px monospace";
         context.textAlign = "center";
         context.textBaseline = "middle";
         var textSize = context.measureText(text);
-        if (textSize.width > width) {
-          if (textSize.width < height) {
+        var maxLength = width;
+        if (textSize.width > width && height < width) {
+            maxLength = height;
             context.translate(width/2,height/2);
             context.rotate(-90 * Math.PI / 180);
             context.translate(-width/2,-height/2);
-          } else {
-            text = "!" + width + "x" + height;
-            textSize = context.measureText(text);
-            if (textSize.width > width) {
-              if (textSize.width < height) {
-                context.translate(width/2,height/2);
-                context.rotate(-90 * Math.PI / 180);
-                context.translate(-width/2,-height/2);
-              }
-            }
-          }          
         }
-        context.fillText(text, width/2, height/2);
+        context.fillText(text, width/2, height/2, maxLength);
         
         return canvas.toDataURL("image/"+fileType);
       }
