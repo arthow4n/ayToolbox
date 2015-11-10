@@ -24,8 +24,8 @@ angular.module("ayPlaceholder", [])
           return;
         }
                 
-        width = args[1];
-        height = args[2] || args[1];
+        width = parseInt(args[1],10);
+        height = parseInt(args[2],10) || width;
         bgColor = "#" + ( args[3] || "CCC" );
         textColor = "#" + ( args[4] || "777" );
         text = args[5] || width + "x" + height;
@@ -55,7 +55,7 @@ angular.module("ayPlaceholder", [])
         context.textBaseline = "middle";
         var textSize = context.measureText(text);
         var maxLength = width;
-        if (textSize.width > width && height < width) {
+        if ( textSize.width > width && height > width ) {
             maxLength = height;
             context.translate(width/2,height/2);
             context.rotate(-90 * Math.PI / 180);
